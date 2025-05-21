@@ -3,17 +3,6 @@
 Students: complete the **TODO** sections in `analyze_failed_logins` and
 `analyze_successful_creds`.  All other tasks already work, so you can run the
 script right away to explore the output format.
-
-Run examples
-------------
-# Once you fill in the failed‑login logic
-python analyze_log.py cowrie-tiny.log --task failed-logins --min-count 5
-
-# Connection volume task (already functional)
-python analyze_log.py cowrie-tiny.log --task connections
-
-# Identify bot clients by shared fingerprint (already functional)
-python analyze_log.py cowrie-tiny.log --task identify-bots --min-ips 3
 """
 
 import argparse
@@ -43,6 +32,8 @@ FINGERPRINT_PATTERN = re.compile(
     r"SSH client hassh fingerprint: (?P<fp>[0-9a-f:]{32})"
 )
 
+COMMAND_PATTERN = re.compile(r"CMD: (.+)")
+
 # ── Helper to print tables ──────────────────────────────────────────────────
 
 def _print_counter(counter: Counter, head1: str, head2: str, sort_keys=False):
@@ -54,23 +45,25 @@ def _print_counter(counter: Counter, head1: str, head2: str, sort_keys=False):
     for key, cnt in items:
         print(f"{key:<{width}} {cnt:>8}")
 
-# ── TODO Task 1: fill this in ───────────────────────────────────────────────
+# ── Task 1: Failed logins ───────────────────────────────────────────────────
 
 def analyze_failed_logins(path: str, min_count: int):
-    """Parse *failed* SSH login attempts and show a count per source IP.
+    """Parse *failed* SSH login attempts and show a count per source IP."""
+    failed_ips = Counter()
+    
+    with open(path, encoding="utf-8") as fp:
+        for line in fp:
+            match = FAILED_LOGIN_PATTERN.search(line)
+            if match:
+                ip = match.group("ip")
+                failed_ips[ip] += 1
 
-    You should:
-    1. Iterate over each line in ``path``.
-    2. Use ``FAILED_LOGIN_PATTERN`` to search the line.
-    3. Increment a Counter keyed by IP when a match is found.
-    4. After reading the file, *filter out* any IP whose count is
-       below ``min_count``.
-    5. Print the results using ``_print_counter``.
-    """
-    # TODO: replace the placeholder implementation below
-    print("[TODO] analyze_failed_logins not yet implemented — write your code here!\n")
+    # Filter out IPs with fewer than min_count failed logins
+    filtered_ips = Counter({ip: count for ip, count in failed_ips.items() if count >= min_count})
+    
+    _print_counter(filtered_ips, "Source IP", "Failures")
 
-# ── Task 2 (already done) ───────────────────────────────────────────────────
+# ── Task 2: Connections (already done) ──────────────────────────────────────
 
 def connections(path: str):
     per_min = Counter()
@@ -83,21 +76,30 @@ def connections(path: str):
     print("Connections per minute")
     _print_counter(per_min, "Timestamp", "Count", sort_keys=True)
 
-# ── TODO Task 3: fill this in ───────────────────────────────────────────────
+# ── Task 3: Successful credentials ──────────────────────────────────────────
 
 def analyze_successful_creds(path: str):
-    """Display username/password pairs that *succeeded* and how many unique IPs used each.
+    """Display username/password pairs that *succeeded* and how many unique IPs used each."""
+    cred_map = defaultdict(set)
 
-    Steps:
-    • Iterate lines and apply ``SUCCESS_LOGIN_PATTERN``.
-    • Build a ``defaultdict(set)`` mapping ``(user, pw)`` → set of IPs.
-    • After reading, sort the mapping by descending IP count and print a
-      three‑column table (Username, Password, IP_Count).
-    """
-    # TODO: replace the placeholder implementation below
-    print("[TODO] analyze_successful_creds not yet implemented — write your code here!\n")
+    with open(path, encoding="utf-8") as fp:
+        for line in fp:
+            match = SUCCESS_LOGIN_PATTERN.search(line)
+            if match:
+                user = match.group("user")
+                pw = match.group("pw")
+                ip = match.group("ip")
+                cred_map[(user, pw)].add(ip)
 
-# ── Task 4 (bot fingerprints) already implemented ───────────────────────────
+    # Sort by descending number of unique IPs
+    sorted_creds = sorted(cred_map.items(), key=lambda item: len(item[1]), reverse=True)
+
+    print(f"{'Username':<15} {'Password':<15} {'IP Count'}")
+    print("-" * 45)
+    for (user, pw), ips in sorted_creds:
+        print(f"{user:<15} {pw:<15} {len(ips)}")
+
+# ── Task 4: Bot fingerprints ────────────────────────────────────────────────
 
 def identify_bots(path: str, min_ips: int):
     fp_map = defaultdict(set)
@@ -113,6 +115,21 @@ def identify_bots(path: str, min_ips: int):
     for fp, ips in sorted(bots.items(), key=lambda x: len(x[1]), reverse=True):
         print(f"{fp:<47} {len(ips):>6}")
 
+# ── Extra Task: Top commands ────────────────────────────────────────────────
+
+def analyze_top_commands(path: str):
+    """Show most common shell commands issued by attackers."""
+    cmd_counter = Counter()
+
+    with open(path, encoding="utf-8") as fp:
+        for line in fp:
+            match = COMMAND_PATTERN.search(line)
+            if match:
+                cmd = match.group(1).strip()
+                cmd_counter[cmd] += 1
+
+    _print_counter(cmd_counter, "Command", "Count")
+
 # ── CLI ─────────────────────────────────────────────────────────────────────
 
 def main():
@@ -121,7 +138,7 @@ def main():
     parser.add_argument("--task",
                         required=True,
                         choices=["failed-logins", "connections",
-                                 "successful-creds", "identify-bots"],
+                                 "successful-creds", "identify-bots", "top-commands"],
                         help="Which analysis to run")
     parser.add_argument("--min-count", type=int, default=1,
                         help="Min events to report (failed-logins)")
@@ -137,7 +154,8 @@ def main():
         analyze_successful_creds(args.logfile)
     elif args.task == "identify-bots":
         identify_bots(args.logfile, args.min_ips)
-
+    elif args.task == "top-commands":
+        analyze_top_commands(args.logfile)
 
 if __name__ == "__main__":
     main()
