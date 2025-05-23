@@ -1,0 +1,366 @@
+# Windows Admin Toolkit
+
+This is a Windows system administration tool written in Python. It helps IT professionals and power users quickly analyze and triage key aspects of a Windows machine using built-in Windows commands and APIs — no third-party tools or external files required.
+
+# Usage
+python analyze_windows.py --task TASK_NAME
+
+
+Available Tasks
+win-events = Show failed and successful logons from the Security log
+win-pkgs = List all installed software from the registry
+win-services = Check the state of specified services and optionally start them if stopped
+win-startup = List startup programs from HKCU\...\Run registry key
+win-vss = Report used and maximum space for shadow copies (VSS)
+(BONUNS) win-firewall = Show inbound firewall rules allowing traffic from all IPs
+
+
+
+
+Outputs for win-startup, win-vss, and win-firewall:
+
+C:\Users\User1\Downloads\activities-Kimberlyka24\Activity-03> python analyze_windows.py --task win-startup
+
+Startup programs (HKCU Run)
+Name                       Command
+------------------------------------
+OneDrive                   "C:\Users\User1\AppData\Local\Microsoft\OneDrive\OneDrive.exe" /background
+ScreenPal Tray             C:\Program Files\ScreenPal\v3_JRE19\ScreenPal.exe tray       
+Docker Desktop             C:\Program Files\Docker\Docker\Docker Desktop.exe
+electron.app.printscout-ui C:\Program Files (x86)\PharosSystems\PrintScout\printscout-ui\printscout-ui.exe
+
+
+
+C:\Users\User1\Downloads\activities-Kimberlyka24\Activity-03>python analyze_windows.py --task win-vss
+
+ Shadow Copy storage usage
+Drive      Used                 Max                  Alert
+------------------------------------------------------------
+)\\?\Volume{62666807-3131-4263-9bec-a40543111a5e}\ 2.11 GB (0%)         10.0 GB (2%)         (unparsed)
+
+
+
+
+
+C:\Users\User1\Downloads\activities-Kimberlyka24\Activity-03>python analyze_windows.py --task win-firewall
+
+Inbound Firewall Rules (all IPs)
+Name                                Action     Port     Remote IP
+----------------------------------------------------------------------
+Microsoft Teams                     Allow      Any      Any
+Microsoft Teams                     Allow      Any      Any
+@{Microsoft.Todos_0.148.3611.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.Todos/Resources/app_name_ms_todo} Allow      -        Any
+@{Microsoft.ZuneMusic_11.2504.4.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.ZuneMusic/Resources/AppStoreName} Allow      -        Any
+@{Microsoft.ZuneVideo_10.25041.10021.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.ZuneVideo/resources/IDS_MANIFEST_VIDEO_APP_NAME} Allow      -        Any
+Microsoft Store                     Allow      -        Any
+Solitaire & Casual Games            Allow      -        Any
+Microsoft Edge (mDNS-In)            Allow      5353     Any
+Microsoft Edge (mDNS-In)            Allow      5353     Any
+Google Chrome (mDNS-In)             Allow      5353     Any
+HNS Container Networking - DNS (UDP-In) - C08CB7B8-9B3C-408E-8E30-5E16A3AEB445 - 0 Allow      53       Any
+HNS Container Networking - ICS DNS (TCP-In) - C08CB7B8-9B3C-408E-8E30-5E16A3AEB445 - 0 Allow      53       Any
+@{Microsoft.StorePurchaseApp_22503.1401.3.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.StorePurchaseApp/Resources/DisplayTitle} Allow      -        Any
+Game Bar                            Allow      -        Any
+@{Microsoft.WindowsCamera_2025.2502.17.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.WindowsCamera/LensSDK/Resources/AppStoreName} Allow      -        Any
+Xbox                                Allow      -        Any
+@{Microsoft.DesktopAppInstaller_1.25.390.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.DesktopAppInstaller/Resources/appDisplayName} Allow      -        Any
+Microsoft Teams                     Allow      Any      Any
+Microsoft Teams                     Allow      Any      Any
+@{microsoft.windowscommunicationsapps_16005.14326.22342.0_x64__8wekyb3d8bbwe?ms-resource://microsoft.windowscommunicationsapps/hxoutlookintl/AppManifest_OutlookDesktop_DisplayName} Allow      -        Any
+@{Microsoft.WindowsFeedbackHub_1.2503.11103.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.WindowsFeedbackHub/Resources/AppStoreName} Allow      -        Any
+Microsoft Teams (personal)          Allow      Any      Any
+Microsoft Teams (personal)          Allow      Any      Any
+VMware Authd Service (private)      Allow      -        LocalSubnet
+VMware Authd Service                Allow      -        Any
+Microsoft Teams (personal)          Allow      Any      Any
+Microsoft Teams (personal)          Allow      Any      Any
+@{Microsoft.BingWeather_4.54.63007.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.BingWeather/Resources/ApplicationTitleWithBranding} Allow      -        Any
+Unity Hub                           Allow      -        Any
+adb.exe                             Allow      Any      Any
+adb.exe                             Allow      Any      Any
+Hyper-V Replica HTTP Listener (TCP-In) Allow      80       Any
+Hyper-V (RPC)                       Allow      RPC      Any
+Hyper-V (RPC-EPMAP)                 Allow      RPC-EPMap Any
+Hyper-V - WMI (DCOM-In)             Allow      135      Any
+Hyper-V (MIG-TCP-In)                Allow      6600     Any
+Hyper-V (REMOTE_DESKTOP_TCP_IN)     Allow      2179     Any
+Hyper-V - WMI (Async-In)            Allow      Any      Any
+Hyper-V - WMI (TCP-In)              Allow      Any      Any
+Hyper-V Replica HTTPS Listener (TCP-In) Allow      443      Any
+@{MicrosoftWindows.Client.CBS_1000.22700.1009.0_x64__cw5n1h2txyewy?ms-resource://MicrosoftWindows.Client.CBS/resources/ProductPkgDisplayName} Allow      -        Any
+@{MicrosoftWindows.Client.LKG_1000.22621.3733.0_x64__cw5n1h2txyewy?ms-resource://MicrosoftWindows.Client.LKG/resources/ProductPkgDisplayName} Allow      -        Any
+@{MicrosoftWindows.Client.Core_1000.22700.1003.0_x64__cw5n1h2txyewy?ms-resource://MicrosoftWindows.Client.Core/resources/ProductPkgDisplayName} Allow      -        Any
+Deep Freeze Service Inbound (UDP)   Allow      Any      Any
+Deep Freeze Service Inbound (TCP)   Allow      Any      Any
+LanSchool Student                   Allow      -        Any
+@{Microsoft.SecHealthUI_1000.25992.9000.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.SecHealthUI/resources/PackageDisplayName} Allow      -        Any
+@{Microsoft.Win32WebViewHost_10.0.22621.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName} Allow      -        Any
+@{Microsoft.Windows.StartMenuExperienceHost_10.0.22621.2506_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName} Allow      -        Any
+@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName} Allow      -        Any
+@{Microsoft.Windows.CloudExperienceHost_10.0.22621.2506_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription} Allow      -        Any
+Node.js JavaScript Runtime          Allow      Any      Any
+Node.js JavaScript Runtime          Allow      Any      Any
+@{Microsoft.SecHealthUI_1000.25992.9000.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.SecHealthUI/resources/PackageDisplayName} Allow      -        Any
+@{Microsoft.DesktopAppInstaller_1.22.10861.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.DesktopAppInstaller/Resources/appDisplayName} Allow      -        Any
+@{Microsoft.SecHealthUI_1000.25992.9000.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.SecHealthUI/resources/PackageDisplayName} Allow      -        Any
+@{Microsoft.ZuneMusic_11.2402.6.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.ZuneMusic/Resources/AppStoreName} Allow      -        Any
+Xbox                                Allow      -        Any
+@{Microsoft.ZuneVideo_10.22091.10061.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.ZuneVideo/resources/IDS_MANIFEST_VIDEO_APP_NAME} Allow      -        Any
+Solitaire & Casual Games            Allow      -        Any
+@{Microsoft.BingWeather_4.53.52331.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.BingWeather/Resources/ApplicationTitleWithBranding} Allow      -        Any
+@{Microsoft.StorePurchaseApp_22312.1401.4.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.StorePurchaseApp/Resources/DisplayTitle} Allow      -        Any
+@{Microsoft.Todos_0.114.7122.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.Todos/Resources/app_name_ms_todo} Allow      -        Any
+@{Microsoft.Windows.Photos_2024.11010.23003.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.Windows.Photos/Resources/AppStoreName} Allow      -        Any
+@{Microsoft.WindowsFeedbackHub_1.2401.20253.0_x64__8wekyb3d8bbwe?ms-resource://Microsoft.WindowsFeedbackHub/Resources/AppStoreName} Allow      -        Any
+Game Bar                            Allow      -        Any
+@{microsoft.windowscommunicationsapps_16005.14326.21854.0_x64__8wekyb3d8bbwe?ms-resource://microsoft.windowscommunicationsapps/hxoutlookintl/AppManifest_OutlookDesktop_DisplayName} Allow      -        Any
+@{Microsoft.Win32WebViewHost_10.0.22621.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName} Allow      -        Any
+Microsoft Store                     Allow      -        Any
+@{Microsoft.Windows.StartMenuExperienceHost_10.0.22621.2506_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName} Allow      -        Any
+@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName} Allow      -        Any
+@{MicrosoftWindows.Client.CBS_1000.22687.1000.0_x64__cw5n1h2txyewy?ms-resource://MicrosoftWindows.Client.CBS/resources/ProductPkgDisplayName} Allow      -        Any
+@{Microsoft.Windows.CloudExperienceHost_10.0.22621.2506_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription} Allow      -        Any
+Microsoft Office Outlook            Allow      6004     Any
+Microsoft Lync UcMapi               Allow      Any      Any
+Microsoft Lync                      Allow      Any      Any
+Digital logic design tool and simulator Allow      Any      Any
+Digital logic design tool and simulator Allow      Any      Any
+@{MicrosoftCorporationII.WindowsSubsystemForAndroid_2311.40000.5.0_x64__8wekyb3d8bbwe?ms-resource://MicrosoftCorporationII.WindowsSubsystemForAndroid/Resources/WsaPackageDisplayName} Allow      -        Any
+Arduino IDE                         Allow      Any      Any
+Arduino IDE                         Allow      Any      Any
+mdns-discovery.exe                  Allow      Any      Any
+mdns-discovery.exe                  Allow      Any      Any
+Hyper-V Management Clients - WMI (Async-In) Allow      Any      Any
+Hyper-V Management Clients - WMI (TCP-In) Allow      Any      Any
+Hyper-V Management Clients - WMI (DCOM-In) Allow      135      Any
+@{Microsoft.Windows.StartMenuExperienceHost_10.0.22621.2506_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName} Allow      -        Any
+@{Microsoft.Windows.CloudExperienceHost_10.0.22621.2506_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription} Allow      -        Any
+Firefox (C:\Program Files\Mozilla Firefox) Allow      Any      Any
+Firefox (C:\Program Files\Mozilla Firefox) Allow      Any      Any
+Packet Tracer Executable            Allow      Any      Any
+Packet Tracer Executable            Allow      Any      Any
+@{Microsoft.Win32WebViewHost_10.0.22621.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName} Allow      -        Any
+@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName} Allow      -        Any
+Media Center Extenders - qWave (TCP-In) Allow      2177     LocalSubnet
+Windows Media Player Network Sharing Service (qWave-UDP-In) Allow      2177     Any
+BranchCache Content Retrieval (HTTP-In) Allow      80       Any
+Windows Media Player Network Sharing Service (HTTP-Streaming-In) Allow      10243    Any
+Cast to Device streaming server (RTSP-Streaming-In) Allow      23554,23555,23556 Any
+Cast to Device streaming server (HTTP-Streaming-In) Allow      10246    Any
+Cast to Device streaming server (HTTP-Streaming-In) Allow      10246    Any
+Remote Desktop - User Mode (UDP-In) Allow      3389     Any
+Remote Desktop - User Mode (TCP-In) Allow      3389     Any
+Media Center Extenders - Media Streaming (TCP-In) Allow      2869     LocalSubnet
+Key Management Service (TCP-In)     Allow      1688     Any
+Cast to Device streaming server (RTCP-Streaming-In) Allow      Any      Any
+Cast to Device streaming server (RTSP-Streaming-In) Allow      23554,23555,23556 LocalSubnet
+Cast to Device UPnP Events (TCP-In) Allow      2869     Any
+Wireless Portable Devices (SSDP-In) Allow      1900     LocalSubnet
+Cast to Device SSDP Discovery (UDP-In) Allow      Ply2Disc Any
+Remote Desktop - Shadow (TCP-In)    Allow      Any      Any
+Media Center Extenders - SSDP (UDP-In) Allow      1900     LocalSubnet
+Cast to Device functionality (qWave-TCP-In) Allow      2177     Any
+Cast to Device streaming server (HTTP-Streaming-In) Allow      10246    LocalSubnet
+Windows Media Player Network Sharing Service (HTTP-Streaming-In) Allow      10243    LocalSubnet
+Wireless Portable Devices (UPnP-In) Allow      2869     LocalSubnet
+Windows Media Player Network Sharing Service (SSDP-In) Allow      1900     LocalSubnet
+File and Printer Sharing over SMBDirect (iWARP-In) Allow      5445     Any
+Key Management Service (TCP-In)     Allow      1688     LocalSubnet
+Media Center Extenders - XSP (TCP-In) Allow      3390     LocalSubnet
+Remote Desktop - (TCP-WSS-In)       Allow      3392     Any
+Media Center Extenders - RTSP (TCP-In) Allow      554,8554,8555,8556,8557,8558 LocalSubnet
+Windows Media Player Network Sharing Service (Streaming-UDP-In) Allow      Any      LocalSubnet
+Cast to Device functionality (qWave-UDP-In) Allow      2177     Any
+Windows Media Player Network Sharing Service (Streaming-UDP-In) Allow      Any      Any
+Windows Media Player Network Sharing Service (TCP-In) Allow      Any      LocalSubnet
+Windows Media Player Network Sharing Service (UDP-In) Allow      Any      LocalSubnet
+Windows Media Player x86 (UDP-In)   Allow      Any      Any
+Media Center Extenders - WMDRM-ND/RTP/RTCP (UDP-In) Allow      7777,7778,7779,7780,7781,5004,5005,50004,50005,50006,50007,50008,50009,50010,50011,50012,50013 LocalSubnet
+Cast to Device streaming server (RTSP-Streaming-In) Allow      23554,23555,23556 Any
+Windows Media Player Network Sharing Service (qWave-TCP-In) Allow      2177     Any
+Windows Media Player Network Sharing Service (TCP-In) Allow      Any      Any
+Windows Media Player Network Sharing Service (UDP-In) Allow      Any      Any
+BranchCache Hosted Cache Server (HTTP-In) Allow      80,443   Any
+Windows Media Player Network Sharing Service (UPnP-In) Allow      2869     LocalSubnet
+Cast to Device streaming server (RTCP-Streaming-In) Allow      Any      Any
+Windows Media Player Network Sharing Service (qWave-UDP-In) Allow      2177     LocalSubnet
+Windows Media Player Network Sharing Service (qWave-TCP-In) Allow      2177     LocalSubnet
+Media Center Extenders - qWave (UDP-In) Allow      2177     LocalSubnet
+Media Center Extenders - HTTP Streaming (TCP-In) Allow      10244    LocalSubnet
+Cast to Device streaming server (RTCP-Streaming-In) Allow      Any      LocalSubnet
+BranchCache Peer Discovery (WSD-In) Allow      3702     LocalSubnet
+Remote Desktop - (TCP-WS-In)        Allow      3387     Any
+Windows Media Player (UDP-In)       Allow      Any      Any
+mDNS (UDP-In)                       Allow      5353     LocalSubnet
+Core Networking Diagnostics - ICMP Echo Request (ICMPv6-In) Allow      -        Any
+Distributed Transaction Coordinator (TCP-In) Allow      Any      Any
+Windows Remote Management - Compatibility Mode (HTTP-In) Allow      80       Any
+Core Networking Diagnostics - ICMP Echo Request (ICMPv4-In) Allow      -        LocalSubnet
+Remote Assistance (TCP-In)          Allow      Any      Any
+Windows Peer to Peer Collaboration Foundation (TCP-In) Allow      Any      Any
+mDNS (UDP-In)                       Allow      5353     Any
+Core Networking - Time Exceeded (ICMPv6-In) Allow      -        Any
+Netlogon Service Authz (RPC)        Allow      RPC      Any
+Remote Volume Management - Virtual Disk Service (RPC) Allow      RPC      Any
+Distributed Transaction Coordinator (TCP-In) Allow      Any      LocalSubnet
+DIAL protocol server (HTTP-In)      Allow      10247    LocalSubnet
+Secure Socket Tunneling Protocol (SSTP-In) Allow      443      Any
+Core Networking Diagnostics - ICMP Echo Request (ICMPv4-In) Allow      -        Any
+Core Networking - Multicast Listener Report (ICMPv6-In) Allow      -        LocalSubnet
+File and Printer Sharing (LLMNR-UDP-In) Allow      5355     LocalSubnet
+Network Discovery (WSD-In)          Allow      3702     LocalSubnet
+Windows Peer to Peer Collaboration Foundation (SSDP-In) Allow      1900     LocalSubnet
+Core Networking - Multicast Listener Query (ICMPv6-In) Allow      -        LocalSubnet
+Remote Event Log Management (RPC)   Allow      RPC      Any
+File and Printer Sharing (Echo Request - ICMPv4-In) Allow      -        Any
+File and Printer Sharing (NB-Datagram-In) Allow      138      LocalSubnet
+Remote Volume Management - Virtual Disk Service Loader (RPC) Allow      RPC      Any
+Core Networking - Multicast Listener Report v2 (ICMPv6-In) Allow      -        LocalSubnet
+Windows Management Instrumentation (WMI-In) Allow      Any      Any
+Network Discovery (Pub-WSD-In)      Allow      3702     LocalSubnet
+WFD ASP Coordination Protocol (UDP-In) Allow      7235     LocalSubnet
+Core Networking - Internet Group Management Protocol (IGMP-In) Allow      -        Any
+Proximity sharing over TCP (TCP sharing-In) Allow      Any      Any
+Distributed Transaction Coordinator (RPC) Allow      RPC      Any
+Remote Assistance (SSDP TCP-In)     Allow      2869     LocalSubnet
+Windows Management Instrumentation (DCOM-In) Allow      135      Any
+Remote Event Log Management (RPC-EPMAP) Allow      RPC-EPMap LocalSubnet
+Network Discovery (UPnP-In)         Allow      2869     Any
+Performance Logs and Alerts (DCOM-In) Allow      135      LocalSubnet
+Windows Collaboration Computer Name Registration Service (SSDP-In) Allow      1900     LocalSubnet
+File and Printer Sharing (Echo Request - ICMPv6-In) Allow      -        Any
+Wireless Display (TCP-In)           Allow      Any      Any
+Network Discovery (WSD Events-In)   Allow      5357     LocalSubnet
+Wi-Fi Direct Network Discovery (In) Allow      -        Any
+Inbound Rule for Remote Shutdown (RPC-EP-In) Allow      RPC-EPMap Any
+Windows Remote Management (HTTP-In) Allow      5985     Any
+Performance Logs and Alerts (TCP-In) Allow      Any      Any
+Performance Logs and Alerts (DCOM-In) Allow      135      Any
+File and Printer Sharing (Echo Request - ICMPv6-In) Allow      -        LocalSubnet
+Network Discovery (NB-Datagram-In)  Allow      138      LocalSubnet
+Remote Scheduled Tasks Management (RPC) Allow      RPC      LocalSubnet
+Connected Devices Platform - Wi-Fi Direct Transport (TCP-In) Allow      Any      Any
+Network Discovery (WSD EventsSecure-In) Allow      5358     LocalSubnet
+Core Networking - Destination Unreachable (ICMPv6-In) Allow      -        Any
+Core Networking - Multicast Listener Done (ICMPv6-In) Allow      -        LocalSubnet
+AllJoyn Router (UDP-In)             Allow      Any      Any
+AllJoyn Router (TCP-In)             Allow      9955     Any
+Windows Defender Firewall Remote Management (RPC) Allow      RPC      LocalSubnet
+Core Networking - IPHTTPS (TCP-In)  Allow      IPHTTPS  Any
+Core Networking - Packet Too Big (ICMPv6-In) Allow      -        Any
+Routing and Remote Access (L2TP-In) Allow      1701     Any
+Network Discovery (LLMNR-UDP-In)    Allow      5355     LocalSubnet
+Virtual Machine Monitoring (Echo Request - ICMPv6-In) Allow      -        Any
+Remote Assistance (TCP-In)          Allow      Any      Any
+mDNS (UDP-In)                       Allow      5353     LocalSubnet
+Remote Scheduled Tasks Management (RPC-EPMAP) Allow      RPC-EPMap LocalSubnet
+Connected Devices Platform (TCP-In) Allow      Any      Any
+Connected Devices Platform (UDP-In) Allow      Any      Any
+Network Discovery (SSDP-In)         Allow      1900     LocalSubnet
+Virtual Machine Monitoring (Echo Request - ICMPv4-In) Allow      -        Any
+Netlogon Service (NP-In)            Allow      445      Any
+Network Discovery for Teredo (UPnP-In) Allow      Any      Any
+Remote Assistance (SSDP UDP-In)     Allow      1900     LocalSubnet
+TPM Virtual Smart Card Management (TCP-In) Allow      Any      LocalSubnet
+TPM Virtual Smart Card Management (DCOM-In) Allow      135      LocalSubnet
+Remote Volume Management - Virtual Disk Service Loader (RPC) Allow      RPC      LocalSubnet
+Remote Volume Management (RPC-EPMAP) Allow      RPC-EPMap Any
+Core Networking Diagnostics - ICMP Echo Request (ICMPv6-In) Allow      -        LocalSubnet
+Network Discovery (NB-Name-In)      Allow      137      Any
+File and Printer Sharing (SMB-In)   Allow      445      Any
+WFD Driver-only (UDP-In)            Allow      Any      Any
+WFD Driver-only (TCP-In)            Allow      Any      Any
+Windows Defender Firewall Remote Management (RPC-EPMAP) Allow      RPC-EPMap Any
+Remote Service Management (NP-In)   Allow      445      LocalSubnet
+Network Discovery (UPnP-In)         Allow      2869     LocalSubnet
+Distributed Transaction Coordinator (RPC-EPMAP) Allow      RPC-EPMap LocalSubnet
+File and Printer Sharing (SMB-In)   Allow      445      LocalSubnet
+Remote Service Management (RPC)     Allow      RPC      Any
+Network Discovery (NB-Datagram-In)  Allow      138      LocalSubnet
+Core Networking - Teredo (UDP-In)   Allow      Teredo   Any
+Remote Service Management (NP-In)   Allow      445      Any
+File and Printer Sharing (Echo Request - ICMPv4-In) Allow      -        LocalSubnet
+Network Discovery (NB-Name-In)      Allow      137      LocalSubnet
+iSCSI Service (TCP-In)              Allow      Any      Any
+Core Networking - Parameter Problem (ICMPv6-In) Allow      -        Any
+File and Printer Sharing (NB-Session-In) Allow      139      LocalSubnet
+Network Discovery (WSD-In)          Allow      3702     LocalSubnet
+File and Printer Sharing (NB-Name-In) Allow      137      Any
+Network Discovery (SSDP-In)         Allow      1900     LocalSubnet
+Windows Remote Management - Compatibility Mode (HTTP-In) Allow      80       LocalSubnet
+Remote Service Management (RPC-EPMAP) Allow      RPC-EPMap LocalSubnet
+Remote Service Management (RPC)     Allow      RPC      LocalSubnet
+Network Discovery (WSD EventsSecure-In) Allow      5358     Any
+Microsoft Media Foundation Network Source IN [TCP 554] Allow      554,8554-8558 LocalSubnet
+Core Networking - Neighbor Discovery Advertisement (ICMPv6-In) Allow      -        Any
+File and Printer Sharing (Spooler Service - RPC-EPMAP) Allow      RPC-EPMap LocalSubnet
+Windows Defender Firewall Remote Management (RPC) Allow      RPC      Any
+Virtual Machine Monitoring (NB-Session-In) Allow      139      Any
+Windows Management Instrumentation (ASync-In) Allow      Any      Any
+Network Discovery (WSD Events-In)   Allow      5357     Any
+Remote Service Management (RPC-EPMAP) Allow      RPC-EPMap Any
+DIAL protocol server (HTTP-In)      Allow      10247    Any
+Windows Peer to Peer Collaboration Foundation (PNRP-In) Allow      3540     Any
+Remote Assistance (PNRP-In)         Allow      3540     Any
+Remote Scheduled Tasks Management (RPC-EPMAP) Allow      RPC-EPMap Any
+Network Discovery (Pub-WSD-In)      Allow      3702     LocalSubnet
+Wireless Display Infrastructure Back Channel (TCP-In) Allow      7250     Any
+Windows Management Instrumentation (DCOM-In) Allow      135      LocalSubnet
+Network Discovery (NB-Datagram-In)  Allow      138      Any
+Core Networking - Router Solicitation (ICMPv6-In) Allow      -        Any
+Virtual Machine Monitoring (DCOM-In) Allow      135      Any
+TPM Virtual Smart Card Management (TCP-In) Allow      Any      Any
+iSCSI Service (TCP-In)              Allow      Any      LocalSubnet
+Remote Volume Management - Virtual Disk Service (RPC) Allow      RPC      LocalSubnet
+Routing and Remote Access (PPTP-In) Allow      1723     Any
+Remote Assistance (PNRP-In)         Allow      3540     Any
+Network Discovery (NB-Name-In)      Allow      137      LocalSubnet
+Virtual Machine Monitoring (RPC)    Allow      RPC      Any
+File and Printer Sharing (NB-Name-In) Allow      137      LocalSubnet
+Delivery Optimization (TCP-In)      Allow      7680     Any
+Windows Remote Management (HTTP-In) Allow      5985     LocalSubnet
+Windows Defender Firewall Remote Management (RPC-EPMAP) Allow      RPC-EPMap LocalSubnet
+Performance Logs and Alerts (TCP-In) Allow      Any      LocalSubnet
+File and Printer Sharing (NB-Datagram-In) Allow      138      Any
+Windows Management Instrumentation (WMI-In) Allow      Any      LocalSubnet
+Windows Management Instrumentation (ASync-In) Allow      Any      LocalSubnet
+SNMP Trap Service (UDP In)          Allow      162      Any
+Network Discovery (UPnP-In)         Allow      2869     LocalSubnet
+Microsoft Media Foundation Network Source IN [UDP 5004-5009] Allow      5000-5020 LocalSubnet
+Remote Event Monitor (RPC)          Allow      RPC      Any
+Remote Event Log Management (RPC-EPMAP) Allow      RPC-EPMap Any
+Remote Assistance (RA Server TCP-In) Allow      Any      Any
+Network Discovery (WSD EventsSecure-In) Allow      5358     LocalSubnet
+Remote Volume Management (RPC-EPMAP) Allow      RPC-EPMap LocalSubnet
+Remote Assistance (DCOM-In)         Allow      135      Any
+Network Discovery (WSD Events-In)   Allow      5357     LocalSubnet
+Remote Event Monitor (RPC-EPMAP)    Allow      RPC-EPMap Any
+Core Networking - Neighbor Discovery Solicitation (ICMPv6-In) Allow      -        Any
+Network Discovery (WSD-In)          Allow      3702     LocalSubnet
+Wi-Fi Direct Scan Service Use (In)  Allow      -        Any
+Distributed Transaction Coordinator (RPC-EPMAP) Allow      RPC-EPMap Any
+Inbound Rule for Remote Shutdown (TCP-In) Allow      RPC      Any
+Network Discovery for Teredo (SSDP-In) Allow      Any      Any
+Distributed Transaction Coordinator (RPC) Allow      RPC      LocalSubnet
+Core Networking - Dynamic Host Configuration Protocol for IPv6(DHCPV6-In) Allow      546      Any
+Network Discovery (WSD-In)          Allow      3702     LocalSubnet
+TPM Virtual Smart Card Management (DCOM-In) Allow      135      Any
+Routing and Remote Access (GRE-In)  Allow      -        Any
+File and Printer Sharing (Spooler Service - RPC) Allow      RPC      LocalSubnet
+File and Printer Sharing (NB-Session-In) Allow      139      Any
+Core Networking - Dynamic Host Configuration Protocol (DHCP-In) Allow      68       Any
+Core Networking - Destination Unreachable Fragmentation Needed (ICMPv4-In) Allow      -        Any
+Core Networking - Router Advertisement (ICMPv6-In) Allow      -        fe80::/64
+Network Discovery (LLMNR-UDP-In)    Allow      5355     LocalSubnet
+Delivery Optimization (UDP-In)      Allow      7680     Any
+SNMP Trap Service (UDP In)          Allow      162      LocalSubnet
+Remote Event Log Management (NP-In) Allow      445      LocalSubnet
+Core Networking - IPv6 (IPv6-In)    Allow      -        Any
+Remote Event Log Management (RPC)   Allow      RPC      LocalSubnet
+Windows Collaboration Computer Name Registration Service (PNRP-In) Allow      3540     Any
+Windows Peer to Peer Collaboration Foundation (WSD-In) Allow      3702     LocalSubnet
+File and Printer Sharing (Spooler Service - RPC) Allow      RPC      Any
+File and Printer Sharing (Spooler Service - RPC-EPMAP) Allow      RPC-EPMap Any
+Remote Scheduled Tasks Management (RPC) Allow      RPC      Any
+Wi-Fi Direct Spooler Use (In)       Allow      -        Any
+Remote Event Log Management (NP-In) Allow      445      Any
