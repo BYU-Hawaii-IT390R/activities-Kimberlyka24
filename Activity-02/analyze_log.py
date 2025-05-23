@@ -62,6 +62,7 @@ def analyze_failed_logins(path: str, min_count: int):
     filtered_ips = Counter({ip: count for ip, count in failed_ips.items() if count >= min_count})
     
     _print_counter(filtered_ips, "Source IP", "Failures")
+#CHATGPT prompt: "create code for analyzing failed logins and count how many times"
 
 # ── Task 2: Connections (already done) ──────────────────────────────────────
 
@@ -98,6 +99,7 @@ def analyze_successful_creds(path: str):
     print("-" * 45)
     for (user, pw), ips in sorted_creds:
         print(f"{user:<15} {pw:<15} {len(ips)}")
+#CHATGPT prompt: "create code for showing successful username and pairs that succeed, and count how many times unique IP is used"
 
 # ── Task 4: Bot fingerprints ────────────────────────────────────────────────
 
