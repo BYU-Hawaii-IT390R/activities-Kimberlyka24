@@ -131,6 +131,7 @@ def analyze_top_commands(path: str):
                 cmd_counter[cmd] += 1
 
     _print_counter(cmd_counter, "Command", "Count")
+#CHATGPT prompt: "create code for showing top commands that attackers used"
 
 # ── CLI ─────────────────────────────────────────────────────────────────────
 
